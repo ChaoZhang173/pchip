@@ -2,7 +2,9 @@
 
 ## Overview 
 
-The 'pchip' is a C++ implementation that employs Piecewise Cubic Hermite Interpolating Polynomial (PCHIP) interpolation to compute plasma gradients based on radial and temperature/electron density profiles. The solver reads plasma data (the file name is in the input file) from a text file and interpolates the values over a given range of input parameters. The interpolation is used to model plasma behavior where there is a gradient. The incidence angle of the pellet is also included in the code.  
+The 'pchip' is a C++ implementation that employs Piecewise Cubic Hermite Interpolating Polynomial (PCHIP) interpolation to compute plasma gradients based on radial and temperature/electron density profiles.   
+The solver reads plasma data (the file name is in the input file) from a text file and interpolates the values over a given range of input parameters.   
+The interpolation is used to model plasma behavior where there is a gradient. The incidence angle of the pellet is also included in the code.  
 
 ## Features
 
