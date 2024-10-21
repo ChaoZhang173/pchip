@@ -31,6 +31,10 @@ This code is only used for testing the functionality, and it will be integrated 
    ```bash
    make
    ```
+3. **Run the code**:
+   ```bash
+   ./test -i inputfile
+   ```
 
 ## Usage
 
