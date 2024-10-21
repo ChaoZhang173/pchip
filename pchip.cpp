@@ -87,10 +87,6 @@ void PelletSolver::initPchip(const vector<double>& x, const vector<double>& y, v
     der[0] = d[0];
     der[n-1] = d[n-2];
 
-    // // for debug 
-    // cout<<" der[0] = "<<der[0]<<", d[0] = "<<d[0]<<endl;
-    // cout<<" der[n-1] = "<<der[n-1]<<", d[n-2] = "<<d[n-2]<<endl;
-
     for (int i = 1; i < n-1; ++i){
         if (d[i-1]*d[i] > 0){
             der[i] = (2*h[i+1]*d[i-1] + 2*h[i]*d[i]) / (h[i+1] + h[i]);
@@ -122,11 +118,6 @@ void PelletSolver::initPchip(const vector<double>& x, const vector<double>& y, v
         double c = der[i];
         double d = y[i];
 
-        // // for debug 
-        // if (i == 0){
-        //     cout<<"a = "<<a<<", b = "<<b<<", c = "<<c<<", d = "<<d<<endl;
-        // }
-
         coef.push_back(a);
         coef.push_back(b);
         coef.push_back(c);
@@ -148,11 +139,6 @@ void PelletSolver::computePlasmaGradient(double const &f, double &Tecoef, double
     }
 
     double dx = y - plasmaPoints[interval];
-
-    // // for debug
-    // cout<<"y = "<<y<<", dx = "<<dx<<endl;
-    // cout<<"a_Te = "<<a_Te<<", b_Te = "<<b_Te<<", c_Te = "<<c_Te<<", d_Te = "<<d_Te<<endl;
-    // cout<<"a_ne = "<<a_ne<<", b_ne = "<<b_ne<<", c_ne = "<<c_ne<<", d_ne = "<<d_ne<<endl;
 
     Tecoef = (a_Te*dx*dx*dx + b_Te*dx*dx + c_Te*dx + d_Te)/Teinf;
     necoef = (a_ne*dx*dx*dx + b_ne*dx*dx + c_ne*dx + d_ne)/neinf;
