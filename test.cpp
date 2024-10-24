@@ -19,46 +19,46 @@ int main(int argc, char* argv[]) {
     Initializer *init = new Initializer(inputfilename);
     PelletSolver *pelletsolver = new PelletSolver(init);
 
-    double f1 = 1.0;
-    double f2 = 1.5;
-    double f3 = 2.2;
-    double f4 = 3.1;
-    double f5 = 4.5;
-    double f6 = 5.0; 
-    double f7 = 7.0; 
+    double z1 = 1.0;
+    double z2 = 1.5;
+    double z3 = 2.2;
+    double z4 = 3.1;
+    double z5 = 4.5;
+    double z6 = 5.0; 
+    double z7 = 7.0; 
     double Tecoef, necoef;
-    pelletsolver->computePlasmaGradient(f1, Tecoef, necoef);
-    cout<<"x = "<<f1<<endl;
+    pelletsolver->computePlasmaGradient(z1, Tecoef, necoef);
+    cout<<"x = "<<z1<<endl;
     cout << "Te1: " << Tecoef*pelletsolver->Teinf << endl;
     cout << "ne1: " << necoef*pelletsolver->neeff << endl;
     
-    pelletsolver->computePlasmaGradient(f2, Tecoef, necoef);
-    cout<<"x = "<<f2<<endl;
+    pelletsolver->computePlasmaGradient(z2, Tecoef, necoef);
+    cout<<"x = "<<z2<<endl;
     cout << "Te2: " << Tecoef*pelletsolver->Teinf << endl;
     cout << "ne2: " << necoef*pelletsolver->neeff << endl;
 
-    pelletsolver->computePlasmaGradient(f3, Tecoef, necoef);
-    cout<<"x = "<<f3<<endl;
+    pelletsolver->computePlasmaGradient(z3, Tecoef, necoef);
+    cout<<"x = "<<z3<<endl;
     cout << "Te3: " << Tecoef*pelletsolver->Teinf << endl;
     cout << "ne3: " << necoef*pelletsolver->neeff << endl;
 
-    pelletsolver->computePlasmaGradient(f4, Tecoef, necoef);
-    cout<<"x = "<<f4<<endl;
+    pelletsolver->computePlasmaGradient(z4, Tecoef, necoef);
+    cout<<"x = "<<z4<<endl;
     cout << "Te4: " << Tecoef*pelletsolver->Teinf << endl;
     cout << "ne4: " << necoef*pelletsolver->neeff << endl;
 
-    pelletsolver->computePlasmaGradient(f5, Tecoef, necoef);
-    cout<<"x = "<<f5<<endl;
+    pelletsolver->computePlasmaGradient(z5, Tecoef, necoef);
+    cout<<"x = "<<z5<<endl;
     cout << "Te5: " << Tecoef*pelletsolver->Teinf << endl;
     cout << "ne5: " << necoef*pelletsolver->neeff << endl;
 
-    pelletsolver->computePlasmaGradient(f6, Tecoef, necoef);
-    cout<<"x = "<<f6<<endl;
+    pelletsolver->computePlasmaGradient(z6, Tecoef, necoef);
+    cout<<"x = "<<z6<<endl;
     cout << "Te6: " << Tecoef*pelletsolver->Teinf << endl;
     cout << "ne6: " << necoef*pelletsolver->neeff << endl;
 
-    pelletsolver->computePlasmaGradient(f7, Tecoef, necoef);
-    cout<<"x = "<<f7<<endl;
+    pelletsolver->computePlasmaGradient(z7, Tecoef, necoef);
+    cout<<"x = "<<z7<<endl;
     cout << "Te7: " << Tecoef*pelletsolver->Teinf << endl;
     cout << "ne7: " << necoef*pelletsolver->neeff << endl;
 

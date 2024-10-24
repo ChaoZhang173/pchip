@@ -28,6 +28,8 @@ class PelletSolver{
         void computePlasmaGradient(double const &f, double &Tecoef, double &necoef);
         //! find the index of y
         int findInterval(double& y);
+        //! evaluate and write the interpolation 
+        void evalPchip(double const &star, double const &end, int nums, const string& filename);
 
         string plasmafile;
         vector<double> plasmaPoints;
@@ -36,7 +38,7 @@ class PelletSolver{
         int cachedInterval;
         double a_Te, b_Te, c_Te, d_Te;
         double a_ne, b_ne, c_ne, d_ne;
-        double incidenceAngle;
+        double gradientAngle;
 
         double Teinf;
         double neinf, neeff;
