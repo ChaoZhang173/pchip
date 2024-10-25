@@ -62,7 +62,14 @@ int main(int argc, char* argv[]) {
     // cout << "Te7: " << Tecoef*pelletsolver->Teinf << endl;
     // cout << "ne7: " << necoef*pelletsolver->neeff << endl;
 
-    pelletsolver->evalPchip(1.489, 1.449, 100, "3output.txt");
+    pelletsolver->evalPchip(1.449, 1.489, 100, "3newoutput.txt");
+
+    pelletsolver->evalLinear(1.449, 1.489, 20, "output_linear.txt");
+
+    pelletsolver->evalLinear(1.449, 1.489, 40, "2output_linear.txt");
+
+    pelletsolver->evalLinear(1.449, 1.489, 100, "3output_linear.txt");
+
 
     delete init;
     delete pelletsolver;

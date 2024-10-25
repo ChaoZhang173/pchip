@@ -38,11 +38,10 @@ PelletSolver::PelletSolver(Initializer* init){
     plasmafile = init->getPlasmaFile();
 
     initPlasmaGradient();
+    initLinearPlasmaGradient();
 }
 
 void PelletSolver::initPlasmaGradient(){
-    vector<double> Te;
-    vector<double> ne;
 
     ifstream file(plasmafile);
     string line;
@@ -65,6 +64,31 @@ void PelletSolver::initPlasmaGradient(){
     // do pchip for Te, ne
     initPchip(plasmaPoints, Te, pchip_Tecoef);
     initPchip(plasmaPoints, ne, pchip_necoef);
+}
+
+void PelletSolver::initLinearPlasmaGradient(){
+
+    ifstream file(plasmafile);
+    string line;
+
+    if(!file.is_open()){
+        cerr<<"Error: cannot open file "<<plasmafile<<endl;
+        exit(1);
+    }
+
+    double r_val, Te_val, ne_val;
+    while(getline(file, line)){
+        istringstream iss(line);
+        iss>>r_val>>Te_val>>ne_val;
+        plasmaPoints.push_back(r_val);
+        Te.push_back(Te_val);
+        ne.push_back(ne_val);
+    }
+    file.close();
+
+    // do linear interpolation for Te, ne
+    initLinear(plasmaPoints, Te, linear_Tecoef);
+    initLinear(plasmaPoints, ne, linear_necoef);
 }
 
 void PelletSolver::initPchip(const vector<double>& x, const vector<double>& y, vector<double>& coef){
@@ -125,6 +149,21 @@ void PelletSolver::initPchip(const vector<double>& x, const vector<double>& y, v
     }
 }
 
+void PelletSolver::initLinear(const vector<double>& x, const vector<double>& y, vector<double>& coef){
+    int n = x.size();
+
+    if(n < 2){
+        cerr<<"Need at least 2 points for interpolation."<<endl;
+        exit(1);
+    }
+
+    for (int i = 0; i < n-1; ++i){
+        double a = (y[i+1] - y[i]) / (x[i+1] - x[i]);
+
+        coef.push_back(a);
+    }
+}
+
 void PelletSolver::computePlasmaGradient(double const &f, double &Tecoef, double &necoef){
     double z = f * gradientAngle;
     int interval = findInterval(z);
@@ -142,6 +181,25 @@ void PelletSolver::computePlasmaGradient(double const &f, double &Tecoef, double
 
     Tecoef = (a_Te*dx*dx*dx + b_Te*dx*dx + c_Te*dx + d_Te)/Teinf;
     necoef = (a_ne*dx*dx*dx + b_ne*dx*dx + c_ne*dx + d_ne)/neinf;
+}
+
+void PelletSolver::computeLinearPlasmaGradient(double const &f, double &Tecoef, double &necoef){
+    double z = f * gradientAngle;
+    int interval = findInterval(z);
+    if(interval == -1){
+        cerr<<"Error: cannot find the interval for z="<<f<<endl;
+        exit(1);
+    }
+
+    // only update the coefficients when the interval changes
+    if (interval != cachedInterval){
+        updateLinearCoeff(interval);
+    }
+
+    double dx = z - plasmaPoints[interval];
+
+    Tecoef = (a_Te_linear*dx + Te[interval])/Teinf;
+    necoef = (a_ne_linear*dx + ne[interval])/neinf;
 }
 
 int PelletSolver::findInterval(double& y){
@@ -173,6 +231,14 @@ void PelletSolver::updateCoeff(int interval){
     cachedInterval = interval;
 }
 
+void PelletSolver::updateLinearCoeff(int interval){
+    a_Te_linear = linear_Tecoef[interval];
+
+    a_ne_linear = linear_necoef[interval];
+
+    cachedInterval = interval;
+}
+
 void PelletSolver::evalPchip(double const &start, double const &end, int nums, const string& filename){
     ofstream ofs(filename);
     double step = (end - start) / nums;
@@ -181,6 +247,19 @@ void PelletSolver::evalPchip(double const &start, double const &end, int nums, c
         double f = start + i*step;
         double Tecoef, necoef;
         computePlasmaGradient(f, Tecoef, necoef);
+        ofs<<f<<" "<<Tecoef*Teinf<<" "<<necoef*neinf<<endl;
+    }
+    ofs.close();
+}
+
+void PelletSolver::evalLinear(double const &start, double const &end, int nums, const string& filename){
+    ofstream ofs(filename);
+    double step = (end - start) / nums;
+
+    for (int i = 0; i < nums; ++i){
+        double f = start + i*step;
+        double Tecoef, necoef;
+        computeLinearPlasmaGradient(f, Tecoef, necoef);
         ofs<<f<<" "<<Tecoef*Teinf<<" "<<necoef*neinf<<endl;
     }
     ofs.close();
